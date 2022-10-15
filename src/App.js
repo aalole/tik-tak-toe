@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import './assets/css/index.css';
+import React from 'react';
+import * as ReactRouter from 'react-router-dom';
 
+// 
+import StartGame from './components/StartGame';
+import GameBoard from './components/GameBoard';
+
+// components needed
+  //players component
+  // 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <ReactRouter.BrowserRouter>
+        <ReactRouter.Switch>
+          {/* <ReactRouter.Router> */}
+            <ReactRouter.Route exact path='/' component={StartGame} />
+            <ReactRouter.Route exact path='/play' component={GameBoard} />
+          {/* </ReactRouter.Router> */}
+        </ReactRouter.Switch>
+      </ReactRouter.BrowserRouter>
+    </React.Fragment>
   );
 }
 
