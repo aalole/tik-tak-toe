@@ -35,6 +35,12 @@ body{
 .switch{
   @apply bg-app-bg py-4 rounded-md flex justify-around items-center
 }
+.text-gray{
+  @apply text-btn-lightgray
+}
+.text-yellow{
+  @apply text-yellow-400
+}
 
 .border-check{
   border: 2px solid red;
