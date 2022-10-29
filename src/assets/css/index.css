@@ -30,8 +30,18 @@ body{
   @apply w-72 h-72 bg-app-bg my-auto;
 }
 .welcome-switch-container{
-  @apply px-2 py-4 shadow-md bg-app-bg rounded-md
+  @apply px-2 py-6 shadow-md bg-app-bg rounded-md
 }
 .switch{
-  @apply bg-app-bg rounded-md flex justify-around items-center
+  @apply bg-app-bg py-4 rounded-md flex justify-around items-center
+}
+.text-gray{
+  @apply text-btn-lightgray
+}
+.text-yellow{
+  @apply text-yellow-400
+}
+
+.border-check{
+  border: 2px solid red;
 }
