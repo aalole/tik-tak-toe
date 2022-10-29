@@ -10,22 +10,32 @@ import GameButtonComp from './GameButtonComp';
 import ModalComponent from './ModalComponent';
 
 
-const GameBoard = ({ winner, setWinner, tie, setTie, setIsOpen, isOpen, setPage }) => {
-
+const GameBoard = ({ winner, setWinner, tie, setTie,setPage,}) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [buttons,] = useState(Array.from(Array(9).fill('')));
 
   const [isRestart, setIsRestart] = useState(false);
   const [turn, setTurn] = useState(0);
-
+  const goHome = () => {
+    setPage(0);
+    if (winner !== '') {
+      setWinner('');
+      setPage(0)
+    }
+  }
   const toggleModal = () => {
     setIsOpen(!isOpen)
+    // setIsOpen(!isOpen);
     // setIsRestart(!isRestart);
     // setWinner('')
   };
   const toggleRestart = () => {
     setIsRestart(!isRestart)
+    setIsOpen(!isOpen);
   }
-
+  const closeModal = () => {
+    setIsOpen(false)
+}
   const play = (event, index) => {
 
     // Draws only if the position is not taken 
@@ -96,8 +106,6 @@ const GameBoard = ({ winner, setWinner, tie, setTie, setIsOpen, isOpen, setPage 
     })
     return count === 9;
   }
-
-  // Setting the winner in case of a win
   if (checkWin()) {
     setWinner(turn === 0 ? "Player 2 Wins!" :
       "Player 1 Wins!");
@@ -109,6 +117,11 @@ const GameBoard = ({ winner, setWinner, tie, setTie, setIsOpen, isOpen, setPage 
     setWinner("It's a Tie!");
     // setIsOpen(true);
   }
+  // Setting the winner in case of a win
+ useEffect(()=> {
+ if(winner !=='') setIsOpen(true)
+
+ },[winner])
   // eslint-disable-next-line
   // }, [winner]);
 
@@ -141,7 +154,7 @@ const GameBoard = ({ winner, setWinner, tie, setTie, setIsOpen, isOpen, setPage 
       </div>
       {/* #1A2A33 */}
       <GameButtonComp buttons={buttons} draw={play} turn={turn} />
-      {(isOpen || winner !== '') && <ModalComponent winner={winner} tie={tie} message={winner ? winner : 'RESTART GAME?'} title={''} btn1Text={'NO, CANCEL'} btn2Text={'YES, RESTART'} setPage={setPage} setIsOpen={setIsOpen} isOpen={ isOpen } />}
+      {isOpen  && <ModalComponent winner={winner} tie={tie} message={winner ? winner : 'RESTART GAME?'} title={''} btn1Text={'NO, CANCEL'} btn2Text={'YES, RESTART'} setPage={setPage} setIsOpen={setIsOpen} isOpen={ isOpen } closeModal={closeModal} goHome={goHome}/>}
       {/* {(winner && isOpen ) && <ModalComponent winner={winner} tie={tie} message={winner} btn1Text={'NO, CANCEL'} btn2Text={'YES, RESTART'} setPage={setPage} closeModal={closeModal} isOpen={isOpen} setIsOpen = {setIsOpen} />} */}
       <div className='bottom-card flex justify-between px-2 py-2 mt-2 mx-auto w-full'>
         <div className='flex flex-col w-[20%] h-[72px] bg-[#31C3BD] rounded-xl text-center items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>X (you)</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>14</p></div>
