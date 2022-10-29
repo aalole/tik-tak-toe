@@ -4,21 +4,20 @@ import XGreeen from '../assets/images/x-green.png'
 import OYellow from '../assets/images/O-yellow.png'
 import Buttons from './Buttons'
 
-const ModalComponent = ({ winner, setWinner, tie, message, title, btn1Text, btn2Text, setPage, setIsOpen }) => {
+const ModalComponent = ({ winner, setWinner, tie, message, title, btn1Text, btn2Text, setPage, setIsOpen, closeModal, goHome }) => {
     
-    const goHome = () => {
-        setPage(0);
-        if (winner !== '') {
-            setWinner('');
-            setPage(0)
-        }
-    }
+    // const goHome = () => {
+    //     setPage(0);
+    //     if (winner !== '') {
+    //         setWinner('');
+    //         setPage(0)
+    //         setIsOpen(false);
+    //     }
+       
+    // }
    
-    const closeModal = () => {
-        setIsOpen(false)
-    }
+   
     return (
-        // <div className='bg-[#000000] h-[100vh] absolute'>
         <div className='bg-[#1F3641] w-full h-[65vh] flex flex-col justify-center items-center absolute'>
             <div className="modal-box w-[35%] flex flex-col justify-center items-center h-[70%]">
                 {
