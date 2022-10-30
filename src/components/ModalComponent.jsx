@@ -4,17 +4,8 @@ import XGreeen from '../assets/images/x-green.png'
 import OYellow from '../assets/images/O-yellow.png'
 import Buttons from './Buttons'
 
-const ModalComponent = ({ winner, setWinner, tie, message, title, btn1Text, btn2Text, setPage, setIsOpen, closeModal, goHome }) => {
+const ModalComponent = ({ winner, tie, message, title, btn1Text, btn2Text, closeModal, goHome, turn }) => {
     
-    // const goHome = () => {
-    //     setPage(0);
-    //     if (winner !== '') {
-    //         setWinner('');
-    //         setPage(0)
-    //         setIsOpen(false);
-    //     }
-       
-    // }
    
    
     return (
@@ -25,7 +16,7 @@ const ModalComponent = ({ winner, setWinner, tie, message, title, btn1Text, btn2
                         <>
                             <h4 className='text-[#A8BFC9] text-base font-bold mb-4'>{title}</h4>
                             <div className='flex w-[90%] my-0 mx-auto justify-between  items-center'>
-                                <img src={winner === 'X' ? XGreeen : OYellow} alt="who won" className='w-[44px] h-[44px]' style={{ opacity: winner !== '' ? '1' : '0' }} />
+                                <img src={turn === 0 ? OYellow :XGreeen } alt="who won" className='w-[44px] h-[44px]' style={{ opacity: winner !== '' ? '1' : '0' }} />
                                 <h2 className='text-[40px] font-bold ' style={{ color: winner === 'X' ? '#31C3BD' : winner === 'O' ? '#F2B137' : '#A8BFC9' }}>{message}</h2>
                             </div>
                         </>

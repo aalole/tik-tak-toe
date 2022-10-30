@@ -14,25 +14,27 @@ const GameBoard = ({ winner, setWinner, tie, setTie,setPage,}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [buttons,] = useState(Array.from(Array(9).fill('')));
 
-  const [isRestart, setIsRestart] = useState(false);
   const [turn, setTurn] = useState(0);
+  const [playerWinCount, setPlayerWinCount] = useState({
+    playerX: 0,
+    playerO: 0,
+    headToHead: 0
+  });
+
+  const { playerX, playerO, headToHead } = playerWinCount
+
   const goHome = () => {
     setPage(0);
     if (winner !== '') {
       setWinner('');
-      setPage(0)
+      setPage(0);
     }
   }
   const toggleModal = () => {
     setIsOpen(!isOpen)
-    // setIsOpen(!isOpen);
-    // setIsRestart(!isRestart);
-    // setWinner('')
+
   };
-  const toggleRestart = () => {
-    setIsRestart(!isRestart)
-    setIsOpen(!isOpen);
-  }
+
   const closeModal = () => {
     setIsOpen(false)
 }
@@ -56,10 +58,6 @@ const GameBoard = ({ winner, setWinner, tie, setTie,setPage,}) => {
       // checkWon()
     }
   };
-
-
-  // useEffect hook used to check for a winner
-  // useEffect(() => {
 
   // Checks for the win condition in rows
   const checkRow = () => {
@@ -96,6 +94,13 @@ const GameBoard = ({ winner, setWinner, tie, setTie,setPage,}) => {
     return (checkRow() || checkCol() || checkDiagonal());
   }
 
+  const updatePlayerScore = turn => {
+    if (winner !== '') {
+      setPlayerWinCount(turn === 0 ? ({ ...playerWinCount, playerO: playerO + 1 }) : ({ ...playerWinCount, playerX: playerX + 1 }))
+    } else if (tie) {
+      setPlayerWinCount({ ...playerWinCount, headToHead: headToHead + 1 })
+    }
+  };
   // Checks for a tie
   const checkTie = () => {
     let count = 0;
@@ -107,36 +112,23 @@ const GameBoard = ({ winner, setWinner, tie, setTie,setPage,}) => {
     return count === 9;
   }
   if (checkWin()) {
-    setWinner(turn === 0 ? "Player 2 Wins!" :
-      "Player 1 Wins!");
-    // setIsOpen(true);
-    // setIsOpen(!isOpen);
+    setWinner(turn === 0 ? "Player 2 Wins!" : "Player 1 Wins!");
   } else if (checkTie()) {
-
     // Setting the winner to tie in case of a tie
     setWinner("It's a Tie!");
-    // setIsOpen(true);
   }
   // Setting the winner in case of a win
- useEffect(()=> {
- if(winner !=='') setIsOpen(true)
+  useEffect(() => {
+    if (winner !== '') {
+      setIsOpen(true);
+      updatePlayerScore(turn);
+    }
+    // eslint-disable-next-line
+  }, [winner]);
 
- },[winner])
-  // eslint-disable-next-line
-  // }, [winner]);
 
-  // const closeModal = () => {
-  //   // setIsOpen(false);
-  //   if (winner !== '' && isOpen === true) {
-  //     console.log('there is a winner');
-  //     setIsOpen(false);
-  //   }
-  //   setIsOpen(false);
-
-  // }
 
   return (
-    // w-[460px]
     <div className='game-board-container w-[561px] h-[85vh] my-0 mx-auto flex justify-center items-center flex-col'>
       <div className='top-card flex justify-between  items-center px-2 py-2 w-full'>
         <div className="text-center space-x-2">
@@ -152,14 +144,12 @@ const GameBoard = ({ winner, setWinner, tie, setTie,setPage,}) => {
         </div>
         <button className='bg-[#A8BFC9] py-4 px-4 rounded-lg' style={{ boxShadow: 'inset 0px -4px 0px #6B8997' }}><img src={Redo} alt='redo' onClick={toggleModal} /></button>
       </div>
-      {/* #1A2A33 */}
       <GameButtonComp buttons={buttons} draw={play} turn={turn} />
-      {isOpen  && <ModalComponent winner={winner} tie={tie} message={winner ? winner : 'RESTART GAME?'} title={''} btn1Text={'NO, CANCEL'} btn2Text={'YES, RESTART'} setPage={setPage} setIsOpen={setIsOpen} isOpen={ isOpen } closeModal={closeModal} goHome={goHome}/>}
-      {/* {(winner && isOpen ) && <ModalComponent winner={winner} tie={tie} message={winner} btn1Text={'NO, CANCEL'} btn2Text={'YES, RESTART'} setPage={setPage} closeModal={closeModal} isOpen={isOpen} setIsOpen = {setIsOpen} />} */}
+      {isOpen && <ModalComponent winner={winner} tie={tie} message={winner ? winner : 'RESTART GAME?'} title={''} btn1Text={'NO, CANCEL'} btn2Text={'YES, RESTART'} setPage={setPage} setIsOpen={setIsOpen} isOpen={isOpen} closeModal={closeModal} goHome={goHome} turn={turn} />}
       <div className='bottom-card flex justify-between px-2 py-2 mt-2 mx-auto w-full'>
-        <div className='flex flex-col w-[20%] h-[72px] bg-[#31C3BD] rounded-xl text-center items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>X (you)</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>14</p></div>
-        <div className='flex flex-col w-[20%] h-[72px] bg-[#A8BFC9] rounded-xl items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>Ties</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>32</p></div>
-        <div className='flex flex-col w-[20%] h-[72px] bg-[#F2B137] rounded-xl items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>O (CPU)</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>11</p></div>
+        <div className='flex flex-col w-[20%] h-[72px] bg-[#31C3BD] rounded-xl text-center items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>X (you)</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>{playerX}</p></div>
+        <div className='flex flex-col w-[20%] h-[72px] bg-[#A8BFC9] rounded-xl items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>Ties</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>{headToHead}</p></div>
+        <div className='flex flex-col w-[20%] h-[72px] bg-[#F2B137] rounded-xl items-center py-2'><span className='text-[#1A2A33] text-[14px] leading-[17.64px] font-medium'>O (PLY 2)</span> <p className='text-[#1A2A33] text-[24px] leading-[30.24px] font-bold'>{playerO}</p></div>
       </div>
     </div>
   )

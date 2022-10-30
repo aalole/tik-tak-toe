@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import { redirect } from "react-router-dom";
 import Xgreen from '../assets/images/x-green.png';
 import Oyellow from '../assets/images/O-yellow.png';
 import Buttons from './Buttons';

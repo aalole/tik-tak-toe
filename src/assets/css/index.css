@@ -12,20 +12,6 @@ body{
   background-color: #1a2a33;
 }
 
-/* 
-  #31c3bd: green-variant1
-  #61e9e4 : green variant 2
-  #f2bi37 : yellow variant 1
-  ffc860 :yellow variant 1
-  a8bfc9: gray var 1
-  dbe8ed gray var 2
-  1a2a33: bg col 1
-  1f3641: bg col 2
-*/
-
-/* .welcome-container{
-  @apply flex justify-center rounded-sm items-center
-} */
 .welcome-content{
   @apply w-72 h-72 bg-app-bg my-auto;
 }
